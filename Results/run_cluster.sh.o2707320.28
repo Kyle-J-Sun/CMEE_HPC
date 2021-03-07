@@ -1,0 +1,51 @@
+R is about to run 
+
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-conda_cos6-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # CMEE 2020 HPC excercises R code HPC run code proforma
+> 
+> rm(list=ls()) # good practice 
+> graphics.off()
+> source("/rds/general/user/ks3020/home/ks3020_HPC_2020_main.R")
+> 
+> speciation_rate <- 0.0052497
+> community_size_vec <- c(500, 1000, 2500, 5000)
+> 
+> iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+> 
+> if (iter >= 1 && iter <= 25) size <- community_size_vec[1]
+> if (iter > 25 && iter <= 50) size <- community_size_vec[2]
+> if (iter > 50 && iter <= 75) size <- community_size_vec[3]
+> if (iter > 75 && iter <= 100) size <- community_size_vec[4]
+> 
+> set.seed(iter)
+> cluster_run(speciation_rate = speciation_rate, size = size, wall_time = 11.5*60, interval_rich = 1,
++ interval_oct = size / 10, burn_in_generations = 8 * size, output_file_name = paste("ks3020_result", iter, ".rda", sep = ""))
+> 
+R has finished running
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.95 (ave)
+
+============================================
